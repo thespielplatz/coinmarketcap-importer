@@ -25,7 +25,9 @@ app.use((req, res, next) => {
 });
 
 // -----------------------> Start the server
-console.log(process.env)
+
+console.log(`Found Port: ${process.env.NODE_PORT}`)
+
 const PORT = process.env.NODE_PORT || 8080;
 let listenCallback = false;
 

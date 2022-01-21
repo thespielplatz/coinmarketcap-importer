@@ -9,7 +9,7 @@ const sheets = require('./apps/sheets/app')
 
 const axios = require('axios')
 
-
+console.log(`Found: ${process.env.NODE_PORT}`);
 // App Fired Up an listening
 base.setListenCallback(() => {
     (async () => {
