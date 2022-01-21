@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+.idea/
+
+.DS_Store
+auth_keys.json
+keys.json

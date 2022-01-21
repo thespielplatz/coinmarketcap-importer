@@ -1,0 +1,29 @@
+{
+  "name": "coinmarketcap",
+  "version": "1.0.0",
+  "author": "Philipp Horwath",
+  "private": true,
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "description": "",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest --testTimeout 10000"
+  },
+  "devDependencies": {
+    "jest": "^25.5.3",
+    "supertest": "^6.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.1",
+    "googleapis": "^66.0.0",
+    "puppeteer": "^10.4.0"
+  },
+  "keywords": []
+}
