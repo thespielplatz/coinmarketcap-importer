@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // -----------------------> Start the server
 console.log(process.env)
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_PORT || 8080;
 let listenCallback = false;
 
 var server = app.listen(PORT, async() => {
