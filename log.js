@@ -1,5 +1,6 @@
 let name = require('./package.json').name;
 
 module.exports = (text) => {
-    console.log("[" + name + "]: " + text);
+    const time = new Date().toLocaleString("en-AT", { timeZone: "Europe/Vienna" })
+    console.log(`[${time}|${name}]: ${text}`)
 }
