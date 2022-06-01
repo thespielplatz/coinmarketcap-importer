@@ -17,12 +17,11 @@ module.exports = {
 
         try {
             let response = await axios(config);
-            //console.log(response.data);
             return response.data;
 
         } catch (e) {
-            let response = e.response;
-            log(`Error: ${e.message}`);
+            log("Error")
+            console.error(`Error: ${e.message}`);
             return false;
         }
     },
@@ -45,7 +44,8 @@ module.exports = {
 
         } catch (e) {
             let response = e.response;
-            log(`Error: ${e.message}`);
+            log("Error")
+            console.error(`Error: ${e.message}`);
             return false;
         }
     }

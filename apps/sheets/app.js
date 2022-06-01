@@ -2,6 +2,7 @@
 const fs = require("fs");
 const google = require("googleapis").google;
 const key = JSON.parse(fs.readFileSync("./keys.json").toString());
+const log = require('./../../log');
 
 module.exports = {
     start: async (sheets) => {
@@ -16,7 +17,7 @@ module.exports = {
         auth.scopes = ["https://www.googleapis.com/auth/spreadsheets"];
         // Create an instance of sheets to a scoped variable
         this.sheets = await google.sheets({ version: "v4", auth });
-        console.log("Authed with google and instantiated google sheets");
+        log("Authed with google and instantiated google sheets");
     },
 
     writeToSheet: async function(spreadsheetId, sheetName, values, range) {
@@ -31,7 +32,6 @@ module.exports = {
             valueInputOption: "RAW",
             resource: resource
         });
-        console.log("Updated spreadsheet!");
     },
 
     readFromSheet: async function(spreadsheetId, sheetName, range) {
@@ -44,7 +44,7 @@ module.exports = {
         });
 
         const numRows = result.data.values ? result.data.values.length : 0;
-        console.log(`${numRows} rows retrieved.`);
+        //console.log(`${numRows} rows retrieved.`);
 
         return result.data.values;
     }

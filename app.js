@@ -1,6 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config()
 
+const cron = require('node-cron');
+
 const base = require("./base/base")
 const app = base.app;
 const log = require('./log')
@@ -28,7 +30,7 @@ async function refreshSpreadsheet() {
 
     // Read the values
     let rangeRead = "B2:C100";
-    log(`Reading: ${rangeRead}`);
+    log(`Importing: ${rangeRead}`);
 
     let rows = await sheets.readFromSheet(spreadsheetId, sheetName, rangeRead);
 
@@ -45,7 +47,7 @@ async function refreshSpreadsheet() {
         data.push(row);
     }
 
-    log(symbols.join(","));
+    //console.log(symbols.join(","));
 
     const map = await cmc.map(symbols.join(","));
     let tokens = map.data;
@@ -76,9 +78,8 @@ async function refreshSpreadsheet() {
         }
     }
 
-    console.log(data);
-
-    log(ids.join(","));
+    //console.log(data);
+    //log(ids.join(","));
 
     const values = await cmc.value(ids.join(","));
     const pricesData = values.data;
@@ -93,21 +94,28 @@ async function refreshSpreadsheet() {
             let tokenPrice = pricesData[row.id];
             row.price = tokenPrice.quote.EUR.price;
             price.push(row.price);
-            log(row.symbol + " " + row.price + " / " + row.name);
+            //console.log(row.symbol + " " + row.price + " / " + row.name);
         }
 
         prices.push(price);
     }
 
-    console.log(prices);
+    //console.log(prices);
 
     let rangeWrite = "A2:A" + (3 + prices.length);
-    log(`Update: ${rangeWrite}`);
     await sheets.writeToSheet(spreadsheetId, sheetName, prices, rangeWrite);
+    log(`Updated Spreadsheet: ${rangeWrite}`);
 }
 
-const interval = process.env.INTERVAL_IN_MINUTES * 60 * 1000;
-console.log(`Interval set to ${process.env.INTERVAL_IN_MINUTES} minutes`)
-setInterval(refreshSpreadsheet, interval)
+// https://crontab.guru/#*/10_0-2,8-23_*_*_*
+const CRON_AS_TEXT = 'At every 10th minute past every hour from 0 through 2 and every hour from 8 through 23.'
+console.log(`Interval set to "${CRON_AS_TEXT}"`)
+
+cron.schedule('0 */10 0-2,8-23 * * *', async () => {
+    await refreshSpreadsheet()
+},{
+    scheduled: true,
+    timezone: 'Europe/Vienna'
+})
 
 module.exports = app;
